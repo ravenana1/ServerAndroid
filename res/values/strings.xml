@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">ServiceAuto</string>
+    <string name="title">Car Service</string>
+    <string name="text_intro">Inregistrati-va masina cat mai simplu si rapid. Daca masina este deja inregistrata, verificati starea acesteia.</string>
+    <string name="text_inreg">Apasati butonul Inregistrare pentru a inregistra masina</string>
+    <string name="text_stat">Apasati butonul Status pentru a vedea starea masinii</string>
+    <string name="action_settings">Settings</string>
+    <string name="buton_inreg">Inregistrare</string>
+    <string name="buton_stat">Status</string>
+
+</resources>
