@@ -28,62 +28,6 @@
         android:text="@string/text_intro" />
 
     <EditText
-        android:id="@+id/serie"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:ems="10"
-        android:hint="Serie Masina" >
-
-        <requestFocus />
-    </EditText>
-
-    <EditText
-        android:id="@+id/brand"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/serie"
-        android:layout_alignLeft="@+id/serie"
-        android:ems="10"
-        android:hint="Brand Masina" />
-
-    <EditText
-        android:id="@+id/model"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/brand"
-        android:layout_alignLeft="@+id/brand"
-        android:ems="10"
-        android:hint="Model Masina" />
-
-    <EditText
-        android:id="@+id/nume"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/model"
-        android:layout_alignLeft="@+id/model"
-        android:ems="10"
-        android:hint="Nume" />
-
-    <EditText
-        android:id="@+id/prenume"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/nume"
-        android:layout_alignLeft="@+id/nume"
-        android:ems="10"
-        android:hint="Prenume" />
-
-    <Button
-        android:id="@+id/butonInreg"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/serie"
-        android:layout_below="@+id/serie"
-        android:layout_marginTop="18dp"
-        android:text="@string/buton_inreg" />
-
-    <EditText
         android:id="@+id/idMasina"
         android:layout_width="108dp"
         android:layout_height="wrap_content"
@@ -91,5 +35,63 @@
         android:layout_alignTop="@+id/butonStatus"
         android:layout_toLeftOf="@+id/butonStatus"
         android:hint="ID Masina Inregistrata" />
+
+    <EditText
+        android:id="@+id/nume"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/textIntro"
+        android:layout_below="@+id/textIntro"
+        android:layout_marginTop="15dp"
+        android:ems="10"
+        android:hint="Nume si Prenume" />
+
+    <EditText
+        android:id="@+id/model"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/nume"
+        android:layout_below="@+id/nume"
+        android:ems="10"
+        android:hint="Model Masina" />
+
+    <EditText
+        android:id="@+id/brand"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/model"
+        android:layout_below="@+id/model"
+        android:ems="10"
+        android:hint="Brand Masina" />
+
+    <EditText
+        android:id="@+id/serie"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/brand"
+        android:layout_below="@+id/brand"
+        android:ems="10"
+        android:hint="Serie Masina" />
+
+    <EditText
+        android:id="@+id/dataM"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/serie"
+        android:layout_below="@+id/serie"
+        android:ems="10"
+        android:hint="Data" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/butonInreg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/dataM"
+        android:layout_below="@+id/dataM"
+        android:layout_marginTop="28dp"
+        android:text="@string/buton_inreg" />
 
 </RelativeLayout>

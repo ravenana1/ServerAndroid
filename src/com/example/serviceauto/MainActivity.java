@@ -1,30 +1,13 @@
 package com.example.serviceauto;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
-
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-
 import android.app.Activity;
-import android.app.AlertDialog.Builder;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -34,10 +17,9 @@ public class MainActivity extends Activity {
 	
 	Button status;
 	Button inreg;
-	EditText nume, prenume, model, brand, serie, idMasina;
+	EditText nume, model, brand, serie, idMasina, dataM;
 	final Context context = this;
-	int registrationID = 0;
-	String dataM="04.06.2015", stareM="Inregistrat";
+	String dataIng = "";
 	
 	public ButtonInregClick binreg = new ButtonInregClick();
 	public class ButtonInregClick implements Button.OnClickListener{
@@ -72,7 +54,8 @@ public class MainActivity extends Activity {
 				e.printStackTrace();
 			}*/
 			Random r = new Random();
-	        int registrationID = r.nextInt(Integer.MAX_VALUE);
+	        String registrationID = String.valueOf(r.nextInt(Integer.MAX_VALUE));
+	        dataIng = dataM.getText().toString();
 			
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
 					context);
@@ -141,8 +124,8 @@ public class MainActivity extends Activity {
 				// set dialog message
 				alertDialogBuilder
 					.setMessage("Registration ID: " + idMasina.getText().toString() +
-								"\nData Programare: " + dataM +
-								"\nStare Masina: " + stareM +
+								"\nData Programare: " +  dataIng +
+								"\nStare Masina: Tocmai inregistrat" +
 								"\nMasina tocmai inregistrata. Pretul estimat nu este calculat")
 					.setCancelable(false)
 					.setPositiveButton("OK",new DialogInterface.OnClickListener() {
@@ -168,11 +151,11 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         
         nume = (EditText)findViewById(R.id.nume);
-        prenume = (EditText)findViewById(R.id.prenume);
         model = (EditText)findViewById(R.id.model);
         brand = (EditText)findViewById(R.id.brand);
         serie = (EditText)findViewById(R.id.serie);
         idMasina = (EditText)findViewById(R.id.idMasina);
+        dataM = (EditText)findViewById(R.id.dataM);
         
         inreg = (Button)findViewById(R.id.butonInreg);
 		inreg.setOnClickListener(binreg);
