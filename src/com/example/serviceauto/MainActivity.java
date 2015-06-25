@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -16,29 +17,34 @@ import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
+import android.app.AlertDialog.Builder;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 
 
 public class MainActivity extends Activity {
 	
 	Button status;
 	Button inreg;
-	EditText nume, prenume, model, brand, serie;
+	EditText nume, prenume, model, brand, serie, idMasina;
+	final Context context = this;
+	int registrationID = 0;
+	String dataM="04.06.2015", stareM="Inregistrat";
 	
 	public ButtonInregClick binreg = new ButtonInregClick();
 	public class ButtonInregClick implements Button.OnClickListener{
 
 		@Override
 		public void onClick(View arg0) {
-			HttpPost post = new HttpPost("http://localhost:8080/ServiceAuto/regiterCar");
+			/*HttpPost post = new HttpPost("http://localhost:8080/ServiceAuto/regiterCar");
 			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(5);
 			nameValuePairs.add(new BasicNameValuePair("firstName", prenume.getEditableText().toString()));
 			nameValuePairs.add(new BasicNameValuePair("lastName", nume.getEditableText().toString()));
@@ -64,12 +70,95 @@ public class MainActivity extends Activity {
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			}
-
+			}*/
+			Random r = new Random();
+	        int registrationID = r.nextInt(Integer.MAX_VALUE);
 			
-			
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+					context);
+	 
+				// set title
+				alertDialogBuilder.setTitle("Numarul de inregistrare");
+	 
+				// set dialog message
+				alertDialogBuilder
+					.setMessage(registrationID)
+					.setCancelable(false)
+					.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,int id) {
+							// if this button is clicked, close
+							// dialog
+							dialog.cancel();
+						}
+					  });
+	 
+					// create alert dialog
+					AlertDialog alertDialog = alertDialogBuilder.create();
+	 
+					// show it
+					alertDialog.show();
 		}
-		
+	}
+	
+	public ButtonStatusClick binStatus = new ButtonStatusClick();
+	public class ButtonStatusClick implements Button.OnClickListener{
+
+		@Override
+		public void onClick(View arg0) {
+			/*HttpPost post = new HttpPost("http://localhost:8080/ServiceAuto/regiterCar");
+			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(5);
+			nameValuePairs.add(new BasicNameValuePair("firstName", prenume.getEditableText().toString()));
+			nameValuePairs.add(new BasicNameValuePair("lastName", nume.getEditableText().toString()));
+			nameValuePairs.add(new BasicNameValuePair("carModel", model.getEditableText().toString()));
+			nameValuePairs.add(new BasicNameValuePair("carBrand", brand.getEditableText().toString()));
+			nameValuePairs.add(new BasicNameValuePair("carSerial", serie.getEditableText().toString()));
+			try {
+				post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+
+			HttpClient client = new DefaultHttpClient();
+			HttpResponse response = client.execute(post);
+			HttpEntity entity = response.getEntity();
+			
+			createExampleDialog(entity.toString());
+			
+			
+			} catch (UnsupportedEncodingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ClientProtocolException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}*/
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+					context);
+	 
+				// set title
+				alertDialogBuilder.setTitle("Status Masina");
+	 
+				// set dialog message
+				alertDialogBuilder
+					.setMessage("Registration ID: " + idMasina.getText().toString() +
+								"\nData Programare: " + dataM +
+								"\nStare Masina: " + stareM +
+								"\nMasina tocmai inregistrata. Pretul estimat nu este calculat")
+					.setCancelable(false)
+					.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+						public void onClick(DialogInterface dialog,int id) {
+							// if this button is clicked, close
+							// dialog
+							dialog.cancel();
+						}
+					  });
+	 
+					// create alert dialog
+					AlertDialog alertDialog = alertDialogBuilder.create();
+	 
+					// show it
+					alertDialog.show();
+		}
 	}
 
 
@@ -83,9 +172,13 @@ public class MainActivity extends Activity {
         model = (EditText)findViewById(R.id.model);
         brand = (EditText)findViewById(R.id.brand);
         serie = (EditText)findViewById(R.id.serie);
+        idMasina = (EditText)findViewById(R.id.idMasina);
         
         inreg = (Button)findViewById(R.id.butonInreg);
 		inreg.setOnClickListener(binreg);
+		
+		status = (Button)findViewById(R.id.butonStatus);
+		status.setOnClickListener(binStatus);
 		
     }
 
@@ -107,29 +200,5 @@ public class MainActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-    
-    private Dialog createExampleDialog(String idReg) {
-    	 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("ID inregistrare");
-        builder.setMessage("ID-ul dumneavoastra este: " + idReg);
- 
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
- 
-            @Override
-            public void onClick(DialogInterface dialog, int whichButton) {
-                return;
-            }
-        });
- 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                return;
-            }
-        });
- 
-        return builder.create();
     }
 }
