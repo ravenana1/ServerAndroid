@@ -1,6 +1,7 @@
 package com.example.serviceauto;
 
 import java.util.Random;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -20,40 +21,22 @@ public class MainActivity extends Activity {
 	EditText nume, model, brand, serie, idMasina, dataM;
 	final Context context = this;
 	String dataIng = "";
+	GetRequest getRequest;
+	public int ok = 0;
+	public String registrationID;
+	
+	public int ok2 = 0;
+	public String pretMesaj;
+	public String stareMesaj;
+	public String dataMesaj;
+	
 	
 	public ButtonInregClick binreg = new ButtonInregClick();
 	public class ButtonInregClick implements Button.OnClickListener{
 
 		@Override
 		public void onClick(View arg0) {
-			/*HttpPost post = new HttpPost("http://localhost:8080/ServiceAuto/regiterCar");
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(5);
-			nameValuePairs.add(new BasicNameValuePair("firstName", prenume.getEditableText().toString()));
-			nameValuePairs.add(new BasicNameValuePair("lastName", nume.getEditableText().toString()));
-			nameValuePairs.add(new BasicNameValuePair("carModel", model.getEditableText().toString()));
-			nameValuePairs.add(new BasicNameValuePair("carBrand", brand.getEditableText().toString()));
-			nameValuePairs.add(new BasicNameValuePair("carSerial", serie.getEditableText().toString()));
-			try {
-				post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-			HttpClient client = new DefaultHttpClient();
-			HttpResponse response = client.execute(post);
-			HttpEntity entity = response.getEntity();
-			
-			createExampleDialog(entity.toString());
-			
-			
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
-			Random r = new Random();
+			/*Random r = new Random();
 	        String registrationID = String.valueOf(r.nextInt(Integer.MAX_VALUE));
 	        dataIng = dataM.getText().toString();
 			
@@ -79,7 +62,23 @@ public class MainActivity extends Activity {
 					AlertDialog alertDialog = alertDialogBuilder.create();
 	 
 					// show it
-					alertDialog.show();
+					alertDialog.show();*/
+					
+					String m = model.getText().toString();
+					String s = serie.getText().toString();
+					String b = brand.getText().toString();
+					String d = dataM.getText().toString();
+					String n = nume.getText().toString().split("")[0];
+					String p = nume.getText().toString().split("")[1];
+					
+					getRequest = new GetRequest(MainActivity.this, n, p, m, b, s, d);
+					getRequest.start();
+					
+					while(true){
+						if(ok == 1)
+							break;
+					}
+					createDialog();
 		}
 	}
 	
@@ -88,59 +87,16 @@ public class MainActivity extends Activity {
 
 		@Override
 		public void onClick(View arg0) {
-			/*HttpPost post = new HttpPost("http://localhost:8080/ServiceAuto/regiterCar");
-			List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(5);
-			nameValuePairs.add(new BasicNameValuePair("firstName", prenume.getEditableText().toString()));
-			nameValuePairs.add(new BasicNameValuePair("lastName", nume.getEditableText().toString()));
-			nameValuePairs.add(new BasicNameValuePair("carModel", model.getEditableText().toString()));
-			nameValuePairs.add(new BasicNameValuePair("carBrand", brand.getEditableText().toString()));
-			nameValuePairs.add(new BasicNameValuePair("carSerial", serie.getEditableText().toString()));
-			try {
-				post.setEntity(new UrlEncodedFormEntity(nameValuePairs));
-
-			HttpClient client = new DefaultHttpClient();
-			HttpResponse response = client.execute(post);
-			HttpEntity entity = response.getEntity();
 			
-			createExampleDialog(entity.toString());
+			GetStatus getStatus = new GetStatus(MainActivity.this, idMasina.getText().toString());
+			getStatus.start();
 			
+			while(true){
+				if(ok2 == 1)
+					break;
+			}
 			
-			} catch (UnsupportedEncodingException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (ClientProtocolException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}*/
-			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-					context);
-	 
-				// set title
-				alertDialogBuilder.setTitle("Status Masina");
-	 
-				// set dialog message
-				alertDialogBuilder
-					.setMessage("Registration ID: " + idMasina.getText().toString() +
-								"\nData Programare: " +  dataIng +
-								"\nStare Masina: Tocmai inregistrat" +
-								"\nMasina tocmai inregistrata. Pretul estimat nu este calculat")
-					.setCancelable(false)
-					.setPositiveButton("OK",new DialogInterface.OnClickListener() {
-						public void onClick(DialogInterface dialog,int id) {
-							// if this button is clicked, close
-							// dialog
-							dialog.cancel();
-						}
-					  });
-	 
-					// create alert dialog
-					AlertDialog alertDialog = alertDialogBuilder.create();
-	 
-					// show it
-					alertDialog.show();
+			createDialog2();
 		}
 	}
 
@@ -161,8 +117,7 @@ public class MainActivity extends Activity {
 		inreg.setOnClickListener(binreg);
 		
 		status = (Button)findViewById(R.id.butonStatus);
-		status.setOnClickListener(binStatus);
-		
+		status.setOnClickListener(binStatus);	
     }
 
 
@@ -183,5 +138,60 @@ public class MainActivity extends Activity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    
+    private void createDialog(){
+		AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+				context);
+ 
+			// set title
+			alertDialogBuilder.setTitle("Numarul de inregistrare");
+ 
+			// set dialog message
+			alertDialogBuilder
+				.setMessage(registrationID)
+				.setCancelable(false)
+				.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+					public void onClick(DialogInterface dialog,int id) {
+						// if this button is clicked, close
+						// dialog
+						dialog.cancel();
+					}
+				  });
+ 
+				// create alert dialog
+				AlertDialog alertDialog = alertDialogBuilder.create();
+ 
+				// show it
+				alertDialog.show();
+	}
+    
+    private void createDialog2(){
+    	AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+		context);
+
+		// set title
+		alertDialogBuilder.setTitle("Status Masina");
+
+		// set dialog message
+		alertDialogBuilder
+			.setMessage("Registration ID: " + idMasina.getText().toString() +
+						"\nData Programare: " +  dataMesaj +
+						"\nStare Masina: " + stareMesaj +
+						"\nPret: " + pretMesaj)
+			.setCancelable(false)
+			.setPositiveButton("OK",new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog,int id) {
+					// if this button is clicked, close
+					// dialog
+					dialog.cancel();
+				}
+			  });
+
+		// create alert dialog
+		AlertDialog alertDialog = alertDialogBuilder.create();
+
+		// show it
+		alertDialog.show();
     }
 }
