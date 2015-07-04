@@ -68,8 +68,8 @@ public class MainActivity extends Activity {
 					String s = serie.getText().toString();
 					String b = brand.getText().toString();
 					String d = dataM.getText().toString();
-					String n = nume.getText().toString().split("")[0];
-					String p = nume.getText().toString().split("")[1];
+					String n = nume.getText().toString().split(" ")[0];
+					String p = nume.getText().toString().split(" ")[1];
 					
 					getRequest = new GetRequest(MainActivity.this, n, p, m, b, s, d);
 					getRequest.start();

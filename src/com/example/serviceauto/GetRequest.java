@@ -53,7 +53,7 @@ public class GetRequest extends Thread{
 	public void run(){
 		InputStream io = null;
 		HttpClient httpClient = new DefaultHttpClient();
-		HttpPost httpPost = new HttpPost("http://10.0.3.2:8000/server.php");
+		HttpPost httpPost = new HttpPost("http://10.0.3.2:8080/ServiceAuto/registerCar");
 		
 		String json = "";
 		

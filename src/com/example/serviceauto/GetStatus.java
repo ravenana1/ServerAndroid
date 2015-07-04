@@ -10,6 +10,7 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -30,18 +31,22 @@ public class GetStatus extends Thread {
 		try {
 			HttpClient httpClient = new DefaultHttpClient();
 			HttpGet httpGet = new HttpGet();
-			httpGet.setURI(new URI("http://10.0.3.2:8000/server.php?registrationID=" 
+			httpGet.setURI(new URI("http://10.0.3.2:8080/ServiceAuto/statusMasina?registrationID=" 
 							+ statusID));
 			httpResponse = httpClient.execute(httpGet);
 			
 			String json = EntityUtils.toString(httpResponse.getEntity());
 			System.out.println(json + "--------------");
-			JSONObject jsonObject;
+			JSONArray jsonArray;
 			try {
-				jsonObject = new JSONObject(json);
-				m.dataMesaj = jsonObject.getString("date");
-				m.pretMesaj = jsonObject.getString("estimatedPrice");
-				m.stareMesaj = jsonObject.getString("carState");
+				jsonArray = new JSONArray(json);
+				JSONObject j = jsonArray.getJSONObject(0);
+				m.dataMesaj = j.getString("date");
+				if(j.getString("estimatedPrice") == null || j.getString("estimatedPrice").equals("null"))
+					m.pretMesaj = "Masina tocmai inregistrata. Pretul estimat nu este calculat";
+				else
+					m.pretMesaj = j.getString("estimatedPrice");
+				m.stareMesaj = j.getString("carState");
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
